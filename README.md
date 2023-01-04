@@ -13,6 +13,60 @@ https://googlechrome.github.io/samples/web-bluetooth/index.html
 
 When a pair and connect to the device (https://googlechrome.github.io/samples/web-bluetooth/watch-advertisements.html) I get the name null and the id NAcbPscQejjhjX7lZ+HXaQ== I am assuming this is a unique reference to my specific device and it will be different for each one.
 
-If I pull the device up in LiteBlue is can subscribe to the data feed (no ack) on Service UUID: 0000fff6-0000-1000-8000-00805f9b34fb
+If I pull the device up in LightBlue is can subscribe to the data feed (no ack) on Service UUID: 0000fff6-0000-1000-8000-00805f9b34fb
+
+This documentation suggests the UUID should not collide with the Bluetooth SIG Base UUID but it does (not sure if this means it is compatible with the standards or is a default)
+https://novelbits.io/bluetooth-gatt-services-characteristics/
+
+From this site:
+The only restriction for choosing UUIDs for custom services and characteristics is that they must not collide with the Bluetooth SIG base UUID: XXXXXXXX-0000-1000-8000-00805F9B34FB
+
+Using the Chrome Bluetooth internals chrome://bluetooth-internals I can connect the device and inspect the available services
+Name: FSRK-sample-001
+Address: FF:FF:FF:FF:39:60
+GATT Connected:
+Connected
+Latest RSSI: -127
+Services:
+00001800-0000-1000-8000-00805f9b34fb,
+00001801-0000-1000-8000-00805f9b34fb, 
+0000180a-0000-1000-8000-00805f9b34fb, 
+0000fff0-0000-1000-8000-00805f9b34fb, 
+18424398-7cbc-11e9-8f9e-2a86e4085a59
+
+Manufacturer Data:
+0xabcd 0x0a00
+
+Service: 0000fff0-0000-1000-8000-00805f9b34fb
+  Service Info
+    ID: FF:FF:FF:FF:39:60/0000fff0-0000-1000-8000-00805f9b34fb_000a
+    UUID: 0000fff0-0000-1000-8000-00805f9b34fb
+    Type: Primary
+  Characteristics
+    Characteristic: 0000fff6-0000-1000-8000-00805f9b34fb  // ZigBee Alliance Service
+    Characteristic: 0000fff7-0000-1000-8000-00805f9b34fb  // ZigBee Alliance Service
+
+Service: 00001801-0000-1000-8000-00805f9b34fb  // I think this one is general attribute 
+  Service Info
+    ID: FF:FF:FF:FF:39:60/00001801-0000-1000-8000-00805f9b34fb_0006
+    UUID: 00001801-0000-1000-8000-00805f9b34fb
+    Type: Primary
+  Characteristics
+    Characteristic: 00002a05-0000-1000-8000-00805f9b34fb  // Service charged
+
+Service: 00001800-0000-1000-8000-00805f9b34fb  // I think this one is general access 
+  Service Info
+    ID: FF:FF:FF:FF:39:60/00001800-0000-1000-8000-00805f9b34fb_0001
+    UUID: 00001800-0000-1000-8000-00805f9b34fb
+    Type: Primary
+  Characteristics
+    Characteristic: 00002a00-0000-1000-8000-00805f9b34fb  // I think this one is device name 
+    Characteristic: 00002a01-0000-1000-8000-00805f9b34fb  // I think this one is appearance 
+
+
+It looks like we should be looking for 0x1822, /**< Pulse Oximeter Service UUID */
+
+
+Primary Service ID list - https://btprodspecificationrefs.blob.core.windows.net/assigned-values/16-bit%20UUID%20Numbers%20Document.pdf
 
 
