@@ -38,11 +38,11 @@ Manufacturer Data:
 0xabcd 0x0a00
 
 Service: 0000fff0-0000-1000-8000-00805f9b34fb
-  Service Info
-    ID: FF:FF:FF:FF:39:60/0000fff0-0000-1000-8000-00805f9b34fb_000a
-    UUID: 0000fff0-0000-1000-8000-00805f9b34fb
-    Type: Primary
-  Characteristics
+*  Service Info
+**    ID: FF:FF:FF:FF:39:60/0000fff0-0000-1000-8000-00805f9b34fb_000a
+**    UUID: 0000fff0-0000-1000-8000-00805f9b34fb
+**    Type: Primary
+*  Characteristics
     Characteristic: 0000fff6-0000-1000-8000-00805f9b34fb  // This one does have a read subscribable stream 
     Characteristic: 0000fff7-0000-1000-8000-00805f9b34fb  // This one supports a write but its not clear what codes may do anything
 
