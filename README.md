@@ -15,7 +15,7 @@ When a pair and connect to the device (https://googlechrome.github.io/samples/we
 
 If I pull the device up in LightBlue is can subscribe to the data feed (no ack) on Service UUID: 0000fff6-0000-1000-8000-00805f9b34fb
 
-This documentation suggests the UUID should not collide with the Bluetooth SIG Base UUID but it does (not sure if this means it is compatible with the standards or is a default)
+
 https://novelbits.io/bluetooth-gatt-services-characteristics/
 
 From this site:
@@ -28,11 +28,11 @@ GATT Connected:
 Connected
 Latest RSSI: -127
 Services:
-00001800-0000-1000-8000-00805f9b34fb,
-00001801-0000-1000-8000-00805f9b34fb, 
-0000180a-0000-1000-8000-00805f9b34fb, 
-0000fff0-0000-1000-8000-00805f9b34fb, 
-18424398-7cbc-11e9-8f9e-2a86e4085a59
+00001800-0000-1000-8000-00805f9b34fb, // Generic Access Service UUID
+00001801-0000-1000-8000-00805f9b34fb, // Generic Attribute Service UUID
+0000180a-0000-1000-8000-00805f9b34fb, // This one returns a GATT service error
+0000fff0-0000-1000-8000-00805f9b34fb, // ???
+18424398-7cbc-11e9-8f9e-2a86e4085a59  // Custom service so this may warrent further investigation 
 
 Manufacturer Data:
 0xabcd 0x0a00
@@ -43,8 +43,8 @@ Service: 0000fff0-0000-1000-8000-00805f9b34fb
     UUID: 0000fff0-0000-1000-8000-00805f9b34fb
     Type: Primary
   Characteristics
-    Characteristic: 0000fff6-0000-1000-8000-00805f9b34fb  // ZigBee Alliance Service
-    Characteristic: 0000fff7-0000-1000-8000-00805f9b34fb  // ZigBee Alliance Service
+    Characteristic: 0000fff6-0000-1000-8000-00805f9b34fb  // This one does have a read subscribable stream 
+    Characteristic: 0000fff7-0000-1000-8000-00805f9b34fb  // This one supports a write but its not clear what codes may do anything
 
 Service: 00001801-0000-1000-8000-00805f9b34fb  // I think this one is general attribute 
   Service Info
@@ -52,7 +52,7 @@ Service: 00001801-0000-1000-8000-00805f9b34fb  // I think this one is general at
     UUID: 00001801-0000-1000-8000-00805f9b34fb
     Type: Primary
   Characteristics
-    Characteristic: 00002a05-0000-1000-8000-00805f9b34fb  // Service charged
+    Characteristic: 00002a05-0000-1000-8000-00805f9b34fb  // Service changed, always 0x0100FFFF this may be battery because it never changes but does have a value on read.
 
 Service: 00001800-0000-1000-8000-00805f9b34fb  // I think this one is general access 
   Service Info
@@ -60,8 +60,8 @@ Service: 00001800-0000-1000-8000-00805f9b34fb  // I think this one is general ac
     UUID: 00001800-0000-1000-8000-00805f9b34fb
     Type: Primary
   Characteristics
-    Characteristic: 00002a00-0000-1000-8000-00805f9b34fb  // I think this one is device name 
-    Characteristic: 00002a01-0000-1000-8000-00805f9b34fb  // I think this one is appearance 
+    Characteristic: 00002a00-0000-1000-8000-00805f9b34fb  // I think this one is device name, always FSRK-sample-001
+    Characteristic: 00002a01-0000-1000-8000-00805f9b34fb  // I think this one is appearance, always 0x0000 
 
 
 It looks like we should be looking for 0x1822, /**< Pulse Oximeter Service UUID */
